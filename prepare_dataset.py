@@ -22,7 +22,15 @@ def split_images(origin, dest, prefix, ext):
         im2.save(os.path.join(dest, f"{prefix}_{seq}.{ext}"))
         counter += 1
 
-# Split images
-split_images(os.path.join(config.VAL_DIR, 'images'), './dataset/val/images', 'img', 'jpg')
-# Split labels
-split_images(os.path.join(config.VAL_DIR, 'labels'), './dataset/val/labels', 'img', 'png')
+def split_dataset(origin, dest):
+    # Split images
+    split_images(os.path.join(origin, 'images'), f"./dataset/{dest}/images", 'img', 'jpg')
+    # Split labels
+    split_images(os.path.join(origin, 'labels'), f"./dataset/{dest}/labels", 'img', 'png')
+
+# Train dataset
+split_dataset(config.TRAIN_DIR, 'train')
+# Test dataset
+split_dataset(config.TEST_DIR, 'test')
+# Val dataset
+split_dataset(config.VAL_DIR, 'val')
