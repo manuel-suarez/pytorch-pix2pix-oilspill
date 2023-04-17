@@ -23,7 +23,6 @@ def split_images(origin, dest, prefix, ext):
         counter += 1
 
 # Split images
-split_images(os.path.join(config.TRAIN_DIR, 'images'), './dataset/images', 'img', 'jpg')
+split_images(os.path.join(config.TRAIN_DIR, 'images'), './dataset/train/images', 'img', 'jpg')
 # Split labels
-#os.makedirs('./dataset/labels')
-#split_images(os.path.join(config.TRAIN_DIR, 'labels'))
+split_images(os.path.join(config.TRAIN_DIR, 'labels'), './dataset/train/labels', 'img', 'png')
