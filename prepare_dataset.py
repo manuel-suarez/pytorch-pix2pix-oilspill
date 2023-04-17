@@ -2,13 +2,14 @@
 import os
 import config
 from PIL import Image
+from tqdm import tqdm
 
 def split_images(origin, dest, prefix, ext):
     os.makedirs(dest)
     list_files = os.listdir(origin)
     list_files.sort()
     counter = 1
-    for fname in list_files:
+    for fname in tqdm(list_files):
         im = Image.open(os.path.join(origin, fname))
         # Left image
         im1 = im.crop((1, 1, 600, 600))
