@@ -29,45 +29,52 @@ transform_only_mask = A.Compose(
 )
 
 class Satellite2Map_Data(Dataset):
-    def __init__(self, root):
-        self.root = root
-        list_files = os.listdir(self.root)
+    def __init__(self, imgs_root, lbls_root):
+        self.imgs_root = imgs_root
+        self.lbls_root = lbls_root
+        list_imgs_files = os.listdir(self.imgs_root)
+        list_lbls_files = os.listdir(self.lbls_root)
+        # The images were numerically (in the name) sorted
+        list_imgs_files.sort()
+        list_lbls_files.sort()
         #### Removing '.ipynb_checkpoints' from the list
         # list_files.remove('.ipynb_checkpoints')
-        self.n_samples = list_files
+        self.n_images = list_imgs_files
+        self.n_labels = list_lbls_files
 
     def __len__(self):
-        return len(self.n_samples)
+        return len(self.n_images)
 
     def __getitem__(self, idx):
         try:
             if torch.is_tensor(idx):
                 idx = idx.tolist()
-            image_name = self.n_samples[idx]
-            image_path = os.path.join(self.root, image_name)
-            image = np.asarray(Image.open(image_path).convert('RGB'))
-            height, width, _ = image.shape
-            width_cutoff = width // 2
-            satellite_image = image[:, :width_cutoff, :]
-            map_image = image[:, width_cutoff:, :]
+            # Open satellite image
+            sat_image_name = self.n_images[idx]
+            sat_image_path = os.path.join(self.imgs_root, sat_image_name)
+            sat_image = np.asarray(Image.open(sat_image_path).convert('RGB'))
+            # Open segmentation image
+            map_image_name = self.n_labels[idx]
+            map_image_path = os.path.join(self.lbls_root, map_image_name)
+            map_image = np.asarray(Image.open(map_image_path).convert('RGB'))
 
-            augmentations = both_transform(image=satellite_image, image0=map_image)
+            augmentations = both_transform(image=sat_image, image0=map_image)
             input_image = augmentations["image"]
             target_image = augmentations["image0"]
 
-            satellite_image = transform_only_input(image=input_image)["image"]
+            sat_image = transform_only_input(image=input_image)["image"]
             map_image = transform_only_mask(image=target_image)["image"]
-            return (satellite_image, map_image)
+            return (sat_image, map_image)
         except:
             if torch.is_tensor(idx):
                 idx = idx.tolist()
-            image_name = self.n_samples[idx]
-            image_path = os.path.join(self.root, image_name)
+            image_name = self.n_images[idx]
+            image_path = os.path.join(self.imgs_root, image_name)
             print(image_path)
             pass
 
 if __name__ == "__main__":
-    dataset = Satellite2Map_Data("./maps/train")
+    dataset = Satellite2Map_Data("./dataset/train/images", "./dataset/train/labels")
     loader = DataLoader(dataset, batch_size=5)
     for x,y in loader:
         print("X Shape :-", x.shape)
