@@ -6,6 +6,7 @@ from PIL import Image
 def split_images(origin, dest, prefix, ext):
     os.makedirs(dest)
     list_files = os.listdir(origin)
+    list_files.sort()
     counter = 1
     for fname in list_files:
         im = Image.open(os.path.join(origin, fname))
