@@ -1,8 +1,8 @@
 import torch
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-TRAIN_DIR = "./maps/train"
-VAL_DIR = "./maps/val"
+TRAIN_DIR = "/home/est_posgrado_manuel.suarez/data/oil-spill-dataset/train"
+VAL_DIR = "/home/est_posgrado_manuel.suarez/data/oil-spill-dataset/val"
 LEARNING_RATE = 2e-4
 BETA1 = 0.5
 BATCH_SIZE = 16
