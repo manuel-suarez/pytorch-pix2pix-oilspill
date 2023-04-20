@@ -62,7 +62,7 @@ def main():
     val_dataset = Satellite2Map_Data("./dataset/val/images", "./dataset/val/labels")
     val_dl = DataLoader(val_dataset,batch_size=config.BATCH_SIZE,shuffle=True,num_workers=config.NUM_WORKERS,pin_memory=True)
     for epoch in range(config.NUM_EPOCHS):
-        print(f"Epoch ${epoch}")
+        logging.info(f"Epoch {epoch}")
         train(
             netG, netD, train_dl, OptimizerG, OptimizerD, L1_Loss, BCE_Loss
         )
