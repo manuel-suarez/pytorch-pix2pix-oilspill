@@ -6,7 +6,6 @@ import config
 from dataset import Satellite2Map_Data
 from models import Generator, Discriminator
 from torch.utils.data import DataLoader
-from tqdm.notebook import tqdm
 import matplotlib.pyplot as plt
 
 torch.backends.cudnn.benchmark = True
@@ -14,8 +13,7 @@ Gen_loss = []
 Dis_loss = []
 
 def train(netG, netD, train_dl, OptimizerG, OptimizerD, L1_Loss, BCE_Loss):
-    loop = tqdm(train_dl)
-    for idx, (x,y) in enumerate(loop):
+    for idx, (x,y) in enumerate(train_dl):
         x = x.cuda()
         y = y.cuda()
         ############### Train discriminator ##############
@@ -42,12 +40,6 @@ def train(netG, netD, train_dl, OptimizerG, OptimizerD, L1_Loss, BCE_Loss):
         G_loss.backward()
         OptimizerG.step()
 
-        if idx % 10 == 0:
-            loop.set_postfix(
-                D_real=torch.sigmoid(D_real).mean().item(),
-                D_fake=torch.sigmoid(D_fake).mean().item(),
-            )
-
 def main():
     netD = Discriminator(in_channels=3).cuda()
     netG = Generator(in_channels=3).cuda()
@@ -67,6 +59,7 @@ def main():
     val_dataset = Satellite2Map_Data("./dataset/val/images", "./dataset/val/labels")
     val_dl = DataLoader(val_dataset,batch_size=config.BATCH_SIZE,shuffle=True,num_workers=config.NUM_WORKERS,pin_memory=True)
     for epoch in range(config.NUM_EPOCHS):
+        print(f"Epoch ${epoch}")
         train(
             netG, netD, train_dl, OptimizerG, OptimizerD, L1_Loss, BCE_Loss
         )
