@@ -73,7 +73,7 @@ def main():
         if config.SAVE_MODEL and epoch % 50 == 0:
             save_checkpoint(netG, OptimizerG, filename=config.CHECKPOINT_GEN)
             save_checkpoint(netD, OptimizerD, filename=config.CHECKPOINT_DISC)
-        if epoch % 2 == 0:
+        if epoch % 100 == 0:
             save_some_examples(netG, val_dl, epoch, folder="evaluation")
 main()
 plt.figure(figsize=(10,5))
