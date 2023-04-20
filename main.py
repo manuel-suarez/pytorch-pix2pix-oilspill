@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 import logging
 
-logging.basicConfig(filename="log.txt", level=logging.DEBUG)
+logging.basicConfig(filename="log.txt", level=logging.INFO)
 logging.debug("Debug logging test...")
 torch.backends.cudnn.benchmark = True
 Gen_loss = []
