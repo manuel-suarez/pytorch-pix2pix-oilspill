@@ -1,6 +1,6 @@
 # The images in oil spill dataset have 1250x650 pixels so we must divide them and adjust to
 import os
-import config
+from config import TRAIN_DIR, TEST_DIR, VAL_DIR
 from PIL import Image
 from tqdm import tqdm
 
@@ -37,8 +37,8 @@ def split_dataset(origin, dest):
     split_images(os.path.join(origin, 'labels'), f"./dataset/{dest}/labels", 'img', 'png')
 
 # Train dataset
-split_dataset(config.TRAIN_DIR, 'train')
+split_dataset(TRAIN_DIR, 'train')
 # Test dataset
-split_dataset(config.TEST_DIR, 'test')
+split_dataset(TEST_DIR, 'test')
 # Val dataset
-split_dataset(config.VAL_DIR, 'val')
+split_dataset(VAL_DIR, 'val')
