@@ -16,7 +16,7 @@ def split_images(origin, dest, prefix, ext):
         # Crop subimages
         for i in range(10):
             for j in range(5):
-                dims = (i * step_x, j * step_y, i * step_x + 256, j * step_y + 256)
+                dims = (i * step_x, j * step_y, i * step_x + 255, j * step_y + 255)
                 print(dims)
                 #ims = im.crop(dims)
 
