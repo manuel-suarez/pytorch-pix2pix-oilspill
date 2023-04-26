@@ -8,16 +8,16 @@ def split_images(origin, dest, prefix, ext):
     os.makedirs(dest)
     list_files = os.listdir(origin)
     list_files.sort()
-    step_x = (1200 - 256) // 9
-    step_y = (600 - 256) // 4
+    step_x = (1200 - 256) // 5
+    step_y = (600 - 256) // 2
     for fname in tqdm(list_files):
         img_number = fname.split('.')[0].split('_')[1]
         im = Image.open(os.path.join(origin, fname))
         # Crop subimages
         counter = 1
-        for i in range(10):
-            for j in range(5):
-                dims = (i * step_x, j * step_y, i * step_x + 255, j * step_y + 255)
+        for i in range(6):
+            for j in range(3):
+                dims = (i * step_x, j * step_y, i * step_x + 256, j * step_y + 256)
                 ims = im.crop(dims)
                 seq = "{:02d}".format(counter)
                 ims.save(os.path.join(dest, f"{prefix}_{img_number}_{seq}.{ext}"))
