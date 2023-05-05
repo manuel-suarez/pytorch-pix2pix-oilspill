@@ -34,4 +34,4 @@ def split_dataset(origin, dest, dims):
         # Split labels 1D
         split_images(os.path.join(origin, setdir, 'labels_1D'), os.path.join(dest, setdir, 'labels_1D'), dims, 'img', 'png')
 
-split_dataset(ORIG_DIR, DEST_DIR)
+split_dataset(ORIG_DIR, DEST_DIR, 256)
