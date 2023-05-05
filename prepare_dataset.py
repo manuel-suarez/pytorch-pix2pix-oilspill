@@ -6,7 +6,7 @@ ORIG_DIR = "/home/est_posgrado_manuel.suarez/data/oil-spill-dataset"
 DEST_DIR = "/home/est_posgrado_manuel.suarez/data/oil-spill-dataset_256"
 
 def split_images(origin, dest, size, prefix, ext):
-    os.makedirs(dest)
+    os.makedirs(dest, exist_ok=True)
     list_files = os.listdir(origin)
     list_files.sort()
     # Use steps of 64x64
