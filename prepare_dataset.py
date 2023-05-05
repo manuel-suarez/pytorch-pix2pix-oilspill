@@ -5,21 +5,21 @@ from tqdm import tqdm
 ORIG_DIR = "/home/est_posgrado_manuel.suarez/data/oil-spill-dataset"
 DEST_DIR = "/home/est_posgrado_manuel.suarez/data/oil-spill-dataset_256"
 
-def split_images(origin, dest, dims, prefix, ext):
+def split_images(origin, dest, size, prefix, ext):
     os.makedirs(dest)
     list_files = os.listdir(origin)
     list_files.sort()
     # Use steps of 64x64
-    step_x = dims
-    step_y = dims
+    step_x = size
+    step_y = size
     for fname in tqdm(list_files):
         img_number = fname.split('.')[0].split('_')[1]
         im = Image.open(os.path.join(origin, fname))
         # Crop subimages
         counter = 1
-        for i in range(1250 // dims):
-            for j in range(650 // dims):
-                dims = (i * step_x, j * step_y, i * step_x + dims, j * step_y + dims)
+        for i in range(1250 // size):
+            for j in range(650 // size):
+                dims = (i * step_x, j * step_y, i * step_x + size, j * step_y + size)
                 ims = im.crop(dims)
                 seq = "{:02d}".format(counter)
                 ims.save(os.path.join(dest, f"{prefix}_{img_number}_{seq}.{ext}"))
